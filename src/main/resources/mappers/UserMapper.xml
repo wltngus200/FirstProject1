@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.green.fristproject1.user.UserMapper">
+    <insert id="signUpUser" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO user
+        (uid, upw, nm, pic)
+        VALUES
+        (#{uid}, #{upw}, #{nm}, #{pic})
+    </insert>
+
+    <select id="signInUser">
+        SELECT user_id AS userId, uid, upw, nm,
+            created_at AS createdAt, updated_at AS updatedAt, email, pic
+        FROM user
+        WHERE uid=#{uid}
+    </select>
+
+    <!--로그인 처리..!-->
+    <select id="signedUserId">
+        SELECT user_id AS userId, uid, upw, nm,
+                created_at AS createdAt, updated_at AS updatedAt, email, pic
+        FROM user
+        WHERE uid=#{uid}
+    </select>
+
+    <update id="updateUpw">
+        UPDATE user
+        <set>
+            upw=#{newPw}
+        </set>
+        WHERE uid=#{uid}
+    </update>
+
+    <!--로그인 처리 + 두 가지 메소드를 한 번에 처리할 방법...-->
+
+    <update id="updatePic">
+        UPDATE user
+        <set>
+            pic=#{pic}
+        </set>
+        WHERE uid=#{uid}
+    </update>
+</mapper>

@@ -1,0 +1,11 @@
+package com.green.fristproject1.user.common;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class DeleteInfoReq {
+    private String uid;
+    private String upw;
+}
