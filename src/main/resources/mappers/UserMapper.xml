@@ -5,9 +5,9 @@
 <mapper namespace="com.green.fristproject1.user.UserMapper">
     <insert id="signUpUser" useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO user
-        (uid, upw, nm, pic)
+        (uid, upw, nm, pic, email)
         VALUES
-        (#{uid}, #{upw}, #{nm}, #{pic})
+        (#{uid}, #{upw}, #{nm}, #{pic}, #{email})
     </insert>
 
     <select id="signInUser">
@@ -42,4 +42,17 @@
         </set>
         WHERE uid=#{uid}
     </update>
+
+    <delete id="deleteUserInfo">
+        DELETE
+        FROM user
+        WHERE user_id=#{userId}
+    </delete>
+
+    <select id="getUserInfo">
+        SELECT user_id AS userId, uid, upw, nm,
+                created_at AS createdAt, updated_at AS updatedAt, email, pic
+        FROM user
+        WHERE user_id=#{userId}
+    </select>
 </mapper>

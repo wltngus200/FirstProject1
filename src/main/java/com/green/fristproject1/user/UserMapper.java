@@ -10,6 +10,6 @@ public interface UserMapper {
 
     int updateUpw(ChangeUpwReq p);
     int updatePic(ChangePicReq p);
-    int deleteUserInfo(DeleteInfoReq p);
+    int deleteUserInfo(long userId);
     UserEntity getUserInfo(long userId);
 }

@@ -11,5 +11,5 @@ public class ChangePicReq {
     private String upw;
 
     @JsonIgnore
-    private String newPic;
+    private String pic;
 }
