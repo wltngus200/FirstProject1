@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import static com.green.fristproject1.user.common.IDCheck.*;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -18,6 +20,25 @@ public class UserService {
 
     @Transactional
     int signUpUser(MultipartFile pic, SignUpReq p) {
+        if(!isValidId(p.getUid())) {//정규식에 어긋남
+            //if는 괄호 안이 true일 경우 실행
+            //정규식에 맞으면 true를 출력
+            //(!false)=>TRUE 즉, 정규식이 안 맞으면 실행으로 바뀌는 것
+              //(!true)=>FALSE => 실행 X
+            throw new RuntimeException("올바르지 않은 아이디입니다.");
+        }
+        if(mapper.searchUser(p.getUid())!=0){
+            throw new RuntimeException("중복된 아이디입니다.");
+        }
+        if(!isValidPassword(p.getUpw())){ //정규식에 어긋남
+            throw new RuntimeException("비밀번호에 허용되지 않은 특수문자가 사용되었습니다.");
+        }
+        if(!isValidEmail(p.getEmail())){
+            throw new RuntimeException("올바르지 않은 이메일입니다.");
+        }
+
+
+
         String hashPass = BCrypt.hashpw(p.getUpw(), BCrypt.gensalt());
         p.setUpw(hashPass);
         String fileName = utils.makeRandomFileName(pic);

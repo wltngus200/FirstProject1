@@ -1,14 +1,17 @@
 package com.green.fristproject1.user.common;
 
+
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 public class IDCheck {//===========연구중===============
     private static final String ID_REGEX = "^[a-zA-Z0-9]{6,12}$"; // 6~12 글자 영문 대소문자 숫자 0~9 만 가능
     //  "^시작  $"끝? []안에 제한하고 싶은 문자? {}안에 자리수 최소 최대
     private static final String PASSWORD_REGEX =
             "^(?=.*[!@#$%^&*()-_=+\\\\|\\[\\]{};:'\",.<>/?]).{8,20}$\n"; //영문 8~20 글자 특수문자 1개이상 포함,
-            //?=.*는 뭘까... 이스케이프 문자?????
+
     private static final String EMAIL_REGEX =
             "^[a-zA-Z0-9_+&*-]+(?:\\." + //아이디
                     "[a-zA-Z0-9_+&*-]+)*@" +
@@ -41,8 +44,10 @@ public class IDCheck {//===========연구중===============
      */
 
     public static boolean isValidEmail(String email) { //Validation
-        Pattern pattern = Pattern.compile(EMAIL_REGEX);
+        Pattern pattern = Pattern.compile(EMAIL_REGEX); //컴파일: 사람 말을 컴퓨터 말로
         Matcher matcher = pattern.matcher(email);
+        // 저급언어를 가진 pattern객체의 matcher메소드에 String값을 넣어 해당 정규식과 일치하는지 확인
+        // Matcher 객체에 저장
         return matcher.matches();
     }
 
