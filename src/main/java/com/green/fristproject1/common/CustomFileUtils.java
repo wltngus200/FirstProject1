@@ -41,19 +41,4 @@ public class CustomFileUtils {
         mf.transferTo(file);
     }
 
-    public void deleteFolder(String absolutePath) {
-        File file = new File(absolutePath);
-        File[] f = file.listFiles();
-        for (File files : f) {
-            if (file.exists() && file.isDirectory()) {
-                deleteFolder(files.getAbsolutePath());
-
-            } else {
-                files.delete();
-            }
-        }
-        file.delete();
-
-        //마음 급해서 도망간다 다시 해보자 화이팅
-    }
 }
