@@ -19,7 +19,11 @@ public class UserController {
     private final UserService service;
 
     @PostMapping("sign-up")
-    @Operation(summary = "회원가입", description = "사진은 필수가 아님")
+    @Operation(summary = "유저 회원가입",
+            description = "<strong> 변수명 : uid </strong> <p> 회원 아이디 ex)wltngus200 </p>"+"\n"+
+                          "<strong> 변수명 : upw </strong> <p> 회원 비밀번호 ex)aa123 </p>" +"\n"+
+                          "<strong> 변수명 : nm </strong> <p> 회원 이름 ex)지수현 </p>"+"\n"+
+                          "<strong> 변수명 : email </strong> <p> 회원 이메일 ex)wltngus200@naver.com </p>")
     public ResultDto<Integer> signUpUser(@RequestPart(required = false) MultipartFile pic, @RequestPart SignUpReq p){
         log.info("pic, p : {},{}", pic, p);
         int result=service.signUpUser(pic, p);
@@ -32,7 +36,9 @@ public class UserController {
 
     }
     @PostMapping("sign-in")
-    @Operation(summary="로그인", description = "로그인 페이지")
+    @Operation(summary="유저 로그인",
+            description = "<strong> 변수명 : uid </strong> <p> 회원 아이디 ex)wltngus200 </p>"+"\n"+
+                          "<strong> 변수명 : upw </strong> <p> 회원 비밀번호 ex)aa123 </p>" +"\n")
     public ResultDto<SignInRes> signInUser(@ModelAttribute @ParameterObject SignInReq p){
         SignInRes result=service.signInUser(p);
         return ResultDto.<SignInRes>builder()
@@ -42,7 +48,10 @@ public class UserController {
                 .build();
     }
     @PutMapping("password")
-    @Operation(summary="비밀번호 수정", description="변경 전 로그인 요청")
+    @Operation(summary="비밀번호 수정",
+            description="<strong> 변수명 : uid </strong> <p> 회원 아이디 ex)wltngus200 </p>"+"\n"+
+                    "<strong> 변수명 : upw </strong> <p> 회원 비밀번호 ex)aa123 </p>" +"\n"+
+                    "<strong> 변수명 : newPw </strong> <p> 새로운 비밀번호 ex)bb123 </p>"+"\n")
     public ResultDto<Integer> updateUpw(@ModelAttribute @ParameterObject ChangeUpwReq p){
         int result=service.updateUpw(p);
         return ResultDto.<Integer>builder()
@@ -52,7 +61,9 @@ public class UserController {
                 .build();
     }
     @PutMapping("pic")
-    @Operation(summary="프로필 사진 수정", description = "변경 전 로그인 요청")
+    @Operation(summary="프로필 사진 수정",
+            description="<strong> 변수명 : uid </strong> <p> 회원 아이디 ex)wltngus200 </p>"+"\n"+
+                        "<strong> 변수명 : upw </strong> <p> 회원 비밀번호 ex)aa123 </p>" +"\n")
     public ResultDto<Integer> updatePic(@RequestPart MultipartFile pic, @RequestPart ChangePicReq p){
         int result=service.updatePic(pic, p);
         return ResultDto.<Integer>builder()
@@ -63,9 +74,10 @@ public class UserController {
     }
 
     @DeleteMapping
-    @Operation(summary="회원 탈퇴", description = "회원 탈퇴(로그인 처리)")
-    public ResultDto<Integer> deleteUserInfo(@RequestParam long userId){
-        int result=service.deleteUserInfo(userId);
+    @Operation(summary="회원 탈퇴",
+            description="<strong> 변수명 : user_id </strong> <p> 회원 PK ex)17 </p>")
+    public ResultDto<Integer> deleteUserInfo(@RequestParam(name = "user_id") long userId) {
+        int result = service.deleteUserInfo(userId);
         return ResultDto.<Integer>builder()
                 .resultMsg("탈퇴처리가 완료되었습니다.")
                 .statusCode(HttpStatus.OK)
@@ -74,8 +86,9 @@ public class UserController {
     }
 
     @GetMapping
-    @Operation(summary="마이 페이지", description = "회원이 자신의 정보를 조회 가능")
-    public ResultDto<UserEntity> getUserInfo(@RequestParam long userId){
+    @Operation(summary="마이 페이지",
+            description = "<strong> 변수명 : user_id </strong> <p> 회원 PK ex)17 </p>")
+    public ResultDto<UserEntity> getUserInfo(@RequestParam(name="user_id") long userId){
         UserEntity user=service.getUserInfo(userId);
         return ResultDto.<UserEntity>builder()
                 .statusCode(HttpStatus.OK)

@@ -40,6 +40,19 @@ public class CustomFileUtils {
         File file=new File(uploadPath, target);
         mf.transferTo(file);
     }
-        //자꾸 지우고 커밋해서 이상해 보이겠다 그치만 지우고 다시 쓰는 연습중이랍니다
-        //앞으로 1보
+
+    public void deleteFolder(String shortPath){ //파일이 위치한 전체 경로를 받음
+        String fullPath=String.format("%s/%s", uploadPath, shortPath);
+        File file=new File(fullPath); //그 값을 담은 파일 객체 생성
+        if(file.exists() && file.isDirectory()){ //그게 존재하고, 폴더라면
+            File[] list=file.listFiles(); //리스트에 값을 넣어
+            for(File f:list){ //File이 든 리스트 길이만큼 반복
+                if(f.isDirectory()){ //안에 든 값중 1개가 폴더면
+                    deleteFolder(f.getAbsolutePath()); //다시 이 메소드를 호출
+                }else{
+                    f.delete(); //사진파일이면 지워
+                }
+            }file.delete(); //다 끝나면 빈 폴더도 지워
+        }
+    }
 }

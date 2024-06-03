@@ -17,14 +17,6 @@
         WHERE uid=#{uid}
     </select>
 
-    <!--로그인 처리..!-->
-    <select id="signedUserId">
-        SELECT user_id AS userId, uid, upw, nm,
-                created_at AS createdAt, updated_at AS updatedAt, email, pic
-        FROM user
-        WHERE uid=#{uid}
-    </select>
-
     <update id="updateUpw">
         UPDATE user
         <set>
@@ -61,5 +53,14 @@
         FROM user
         WHERE uid=#{uid}
     </select>
+
+    <!--로그인 처리..!-->
+    <select id="signedUserId">
+        SELECT user_id AS userId, uid, upw, nm,
+        created_at AS createdAt, updated_at AS updatedAt, email, pic
+        FROM user
+        WHERE uid=#{uid}
+    </select>
+
 
 </mapper>

@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ChangePicReq {
+
     private String uid;
     private String upw;
 
