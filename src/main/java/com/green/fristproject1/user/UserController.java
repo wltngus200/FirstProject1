@@ -73,10 +73,10 @@ public class UserController {
                 .build();
     }
 
-    @DeleteMapping
+    @DeleteMapping("{user_id}")
     @Operation(summary="회원 탈퇴",
             description="<strong> 변수명 : user_id </strong> <p> 회원 PK ex)17 </p>")
-    public ResultDto<Integer> deleteUserInfo(@RequestParam(name = "user_id") long userId) {
+    public ResultDto<Integer> deleteUserInfo(@PathVariable(name="user_id") long userId) {
         int result = service.deleteUserInfo(userId);
         return ResultDto.<Integer>builder()
                 .resultMsg("탈퇴처리가 완료되었습니다.")

@@ -11,12 +11,14 @@ public class IDCheck {//===========연구중===============
     //  "^시작  $"끝? []안에 제한하고 싶은 문자? {}안에 자리수 최소 최대
     private static final String PASSWORD_REGEX =
             "^(?=.*[!@#$%^&*()-_=+\\\\|\\[\\]{};:'\",.<>/?]).{8,20}$\n"; //영문 8~20 글자 특수문자 1개이상 포함,
+    //^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$
 
     private static final String EMAIL_REGEX =
             "^[a-zA-Z0-9_+&*-]+(?:\\." + //아이디
                     "[a-zA-Z0-9_+&*-]+)*@" +
                     "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
                     "A-Z]{2,7}$";
+    //^(?=.*[a-zA-Z0-9]).{8,12}@(?=[a-z]).{3,5}\.(com|net|org){1}$ 스페이스가 들어가도 통과가 되는데...
 
     String Emi="^" // 정규식 시작 기호
             + "[a-zA-Z0-9_+&*-]+" //영어 대소문자, 숫자 전체와 특수문자(_,+,&,*,-)중 1개의 문자를 1번이상 반복(+)하시오.
@@ -61,6 +63,12 @@ public class IDCheck {//===========연구중===============
         Pattern pattern = Pattern.compile(ID_REGEX);
         Matcher matcher = pattern.matcher(id);
         return matcher.matches();
+    }
+
+    public static boolean myRegex(){ //영빈씨 최고~
+        String a="afnj";
+        if(a.matches(PASSWORD_REGEX));
+        return false;
     }
 
 }           //wltngus200@naver.com
