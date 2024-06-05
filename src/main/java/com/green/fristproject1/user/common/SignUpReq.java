@@ -20,5 +20,5 @@ public class SignUpReq {
     private String email;
 
     @JsonIgnore
-    private String pic;
+    private String picName;
 }

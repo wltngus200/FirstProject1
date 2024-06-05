@@ -13,5 +13,5 @@ public class SignInRes {
     private String createdAt;
     private String updatedAt;
     private String email;
-    private String pic;
+    private String picName;
 }

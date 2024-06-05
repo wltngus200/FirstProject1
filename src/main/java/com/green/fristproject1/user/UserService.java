@@ -43,7 +43,7 @@ public class UserService {
         String hashPass = BCrypt.hashpw(p.getUpw(), BCrypt.gensalt());
         p.setUpw(hashPass);
         String fileName = utils.makeRandomFileName(pic);
-        p.setPic(fileName);
+        p.setPicName(fileName);
         int result=mapper.signUpUser(p);
 
         try {
@@ -71,7 +71,7 @@ public class UserService {
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
                 .email(user.getEmail())
-                .pic(user.getPic())
+                .picName(user.getPicName())
                 .build();
         return res;
     }
@@ -92,7 +92,7 @@ public class UserService {
         // 로그인 처리가 없어서 UserId를 얻기 위함(낭비) //long signedUserId를 입력 받아도 될 듯?
 
         String randomName = utils.makeRandomFileName(pic);
-        p.setPic(randomName); //랜덤이름을 DB에 전송
+        p.setPicName(randomName); //랜덤이름을 DB에 전송
 
         String path = String.format("/user/%d", res.getUserId()); //userId 필요
         String target = String.format("%s/%s", path, randomName);
