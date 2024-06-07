@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 @ToString
 public class SignUpReq {
-    @JsonIgnore //안 뜨니까 필요 없지?
+    @JsonIgnore
     private long userId;
 
     private String uid;
@@ -19,6 +19,4 @@ public class SignUpReq {
     private String nm;
     private String email;
 
-    @JsonIgnore
-    private String picName;
 }

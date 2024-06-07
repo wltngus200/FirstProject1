@@ -22,7 +22,7 @@ public class UserService {
     private final CustomFileUtils utils;
 
     @Transactional
-    int signUpUser(MultipartFile pic, SignUpReq p) {
+    public int signUpUser(SignUpReq p) {
         /*if(!isValidId(p.getUid())) {//정규식에 어긋남
             //if는 괄호 안이 true일 경우 실행
             //정규식에 맞으면 true를 출력
@@ -42,19 +42,8 @@ public class UserService {
 
         String hashPass = BCrypt.hashpw(p.getUpw(), BCrypt.gensalt());
         p.setUpw(hashPass);
-        String fileName = utils.makeRandomFileName(pic);
-        p.setPicName(fileName);
         int result=mapper.signUpUser(p);
 
-        try {
-            String path = String.format("user/%d", p.getUserId());
-            String target = String.format("%s/%s", path, fileName);
-            utils.makeFolder(path);
-            utils.transfer(target, pic);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("가입에 실패했습니다.");
-        }
         return result;
     }
 
@@ -71,7 +60,6 @@ public class UserService {
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
                 .email(user.getEmail())
-                .picName(user.getPicName())
                 .build();
         return res;
     }
@@ -86,28 +74,6 @@ public class UserService {
         return mapper.updateUpw(p);
     }
 
-    int updatePic(MultipartFile pic, ChangePicReq p) {
-        SignInReq req = SignInReq.builder().uid(p.getUid()).upw(p.getUpw()).build();
-        SignInRes res=signInUser(req); //바꾸기 전, 재 로그인
-        // 로그인 처리가 없어서 UserId를 얻기 위함(낭비) //long signedUserId를 입력 받아도 될 듯?
-
-        String randomName = utils.makeRandomFileName(pic);
-        p.setPicName(randomName); //랜덤이름을 DB에 전송
-
-        String path = String.format("/user/%d", res.getUserId()); //userId 필요
-        String target = String.format("%s/%s", path, randomName);
-        try {
-            utils.deleteFolder(path); //지우고
-            utils.makeFolder(path); //다시 넣고
-            utils.transfer(target, pic); //전송
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("프로필 업데이트에 실패했습니다.");
-        }
-        return mapper.updatePic(p);
-
-        //폴더 변경 페이지에 삭제하고 저장 버튼 기능도 있어야함
-    }
 
     int deleteUserInfo(long userId) {
         String shortPath=String.format("/user/%d", userId);

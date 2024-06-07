@@ -13,21 +13,21 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/user")
+@RequestMapping("/api/user")
 @Slf4j
 public class UserController {
     private final UserService service;
 
     @PostMapping("sign-up")
     @Operation(summary = "유저 회원가입",
-            description = "<strong> 변수명 : uid </strong> <p> 회원 아이디 ex)wltngus200 </p>"+"\n"+
+            description = "<strong> 변수명 : uid </strong> <p> 회원 아이디 ex)abc1231 </p>"+"\n"+
                           "<strong> 변수명 : upw </strong> <p> 회원 비밀번호 ex)aa123 </p>" +"\n"+
-                          "<strong> 변수명 : nm </strong> <p> 회원 이름 ex)지수현 </p>"+"\n"+
-                          "<strong> 변수명 : email </strong> <p> 회원 이메일 ex)wltngus200@naver.com </p>")
-    public ResultDto<Integer> signUpUser(@RequestPart(required = false) MultipartFile pic, @RequestPart SignUpReq p){
-        log.info("pic, p : {},{}", pic, p);
-        int result=service.signUpUser(pic, p);
-        log.info("pic2, p2 : {},{}", pic, p);
+                          "<strong> 변수명 : nm </strong> <p> 회원 이름 ex)홍길동 </p>"+"\n"+
+                          "<strong> 변수명 : email </strong> <p> 회원 이메일 ex)abc1231@naver.com </p>")
+    public ResultDto<Integer> signUpUser(@RequestBody SignUpReq p){
+        log.info("p : {}", p);
+        int result=service.signUpUser(p);
+        log.info("p2 : {}",  p);
         return ResultDto.<Integer>builder()
                 .statusCode(HttpStatus.OK)
                 .resultData(result)
@@ -37,10 +37,11 @@ public class UserController {
     }
     @PostMapping("sign-in")
     @Operation(summary="유저 로그인",
-            description = "<strong> 변수명 : uid </strong> <p> 회원 아이디 ex)wltngus200 </p>"+"\n"+
+            description = "<strong> 변수명 : uid </strong> <p> 회원 아이디 ex)abc1231 </p>"+"\n"+
                           "<strong> 변수명 : upw </strong> <p> 회원 비밀번호 ex)aa123 </p>" +"\n")
     public ResultDto<SignInRes> signInUser(@ModelAttribute @ParameterObject SignInReq p){
         SignInRes result=service.signInUser(p);
+        log.info("{},{}",p,result);
         return ResultDto.<SignInRes>builder()
                 .statusCode(HttpStatus.OK)
                 .resultData(result)
@@ -49,7 +50,7 @@ public class UserController {
     }
     @PutMapping("password")
     @Operation(summary="비밀번호 수정",
-            description="<strong> 변수명 : uid </strong> <p> 회원 아이디 ex)wltngus200 </p>"+"\n"+
+            description="<strong> 변수명 : uid </strong> <p> 회원 아이디 ex)abc1231 </p>"+"\n"+
                     "<strong> 변수명 : upw </strong> <p> 회원 비밀번호 ex)aa123 </p>" +"\n"+
                     "<strong> 변수명 : newPw </strong> <p> 새로운 비밀번호 ex)bb123 </p>"+"\n")
     public ResultDto<Integer> updateUpw(@ModelAttribute @ParameterObject ChangeUpwReq p){
@@ -60,23 +61,11 @@ public class UserController {
                 .statusCode(HttpStatus.OK)
                 .build();
     }
-    @PutMapping("pic")
-    @Operation(summary="프로필 사진 수정",
-            description="<strong> 변수명 : uid </strong> <p> 회원 아이디 ex)wltngus200 </p>"+"\n"+
-                        "<strong> 변수명 : upw </strong> <p> 회원 비밀번호 ex)aa123 </p>" +"\n")
-    public ResultDto<Integer> updatePic(@RequestPart MultipartFile pic, @RequestPart ChangePicReq p){
-        int result=service.updatePic(pic, p);
-        return ResultDto.<Integer>builder()
-                .resultData(result)
-                .statusCode(HttpStatus.OK)
-                .resultMsg("사진을 성공적으로 업데이트 하였습니다.")
-                .build();
-    }
 
-    @DeleteMapping("{user_id}")
+    @DeleteMapping
     @Operation(summary="회원 탈퇴",
             description="<strong> 변수명 : user_id </strong> <p> 회원 PK ex)17 </p>")
-    public ResultDto<Integer> deleteUserInfo(@PathVariable(name="user_id") long userId) {
+    public ResultDto<Integer> deleteUserInfo(@RequestParam(name="user_id") long userId) {
         int result = service.deleteUserInfo(userId);
         return ResultDto.<Integer>builder()
                 .resultMsg("탈퇴처리가 완료되었습니다.")

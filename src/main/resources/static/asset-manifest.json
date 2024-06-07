@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.09cdf8ae.css",
+    "main.js": "/static/js/main.a0840701.js",
+    "static/media/ALOTlogo.jpg": "/static/media/ALOTlogo.53c4fabf56d7b37625a1.jpg",
+    "index.html": "/index.html",
+    "main.09cdf8ae.css.map": "/static/css/main.09cdf8ae.css.map",
+    "main.a0840701.js.map": "/static/js/main.a0840701.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.09cdf8ae.css",
+    "static/js/main.a0840701.js"
+  ]
+}

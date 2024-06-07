@@ -5,14 +5,14 @@
 <mapper namespace="com.green.fristproject1.user.UserMapper">
     <insert id="signUpUser" useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO user
-        (uid, upw, nm, pic, email)
+        (uid, upw, nm, email)
         VALUES
-        (#{uid}, #{upw}, #{nm}, #{pic}, #{email})
+        (#{uid}, #{upw}, #{nm}, #{email})
     </insert>
 
     <select id="signInUser">
         SELECT user_id AS userId, uid, upw, nm,
-            created_at AS createdAt, updated_at AS updatedAt, email, pic
+            created_at AS createdAt, updated_at AS updatedAt, email
         FROM user
         WHERE uid=#{uid}
     </select>
@@ -25,15 +25,7 @@
         WHERE uid=#{uid}
     </update>
 
-    <!--로그인 처리 + 두 가지 메소드를 한 번에 처리할 방법...-->
-
-    <update id="updatePic">
-        UPDATE user
-        <set>
-            pic=#{pic}
-        </set>
-        WHERE uid=#{uid}
-    </update>
+    <!--정보 수정시 로그인 처리-->
 
     <delete id="deleteUserInfo">
         DELETE
@@ -43,7 +35,7 @@
 
     <select id="getUserInfo">
         SELECT user_id AS userId, uid, upw, nm,
-                created_at AS createdAt, updated_at AS updatedAt, email, pic
+                created_at AS createdAt, updated_at AS updatedAt, email
         FROM user
         WHERE user_id=#{userId}
     </select>
@@ -57,7 +49,7 @@
     <!--로그인 처리..!-->
     <select id="signedUserId">
         SELECT user_id AS userId, uid, upw, nm,
-        created_at AS createdAt, updated_at AS updatedAt, email, pic
+        created_at AS createdAt, updated_at AS updatedAt, email
         FROM user
         WHERE uid=#{uid}
     </select>
