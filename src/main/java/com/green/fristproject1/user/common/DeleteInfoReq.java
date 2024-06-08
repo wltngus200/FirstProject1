@@ -5,7 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DeleteInfoReq {
-    private String uid;
-    private String upw;
+public class DeleteInfoReq { //user PK
+    private long userId;
+    //private String uid;
+    //private String upw;
 }
