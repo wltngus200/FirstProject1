@@ -14,4 +14,6 @@ public interface UserMapper {
     int deleteUserInfo(long userId);
     UserEntity getUserInfo(long userId);
 
+    int searchUser(String uid);
+
 }

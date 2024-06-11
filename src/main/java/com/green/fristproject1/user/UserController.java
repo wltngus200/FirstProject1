@@ -25,24 +25,32 @@ public class UserController {
                           "<strong> 변수명 : nm </strong> <p> 회원 이름 ex)홍길동 </p>"+"\n"+
                           "<strong> 변수명 : email </strong> <p> 회원 이메일 ex)abc1231@naver.com </p>")
     public ResultDto<Integer> signUpUser(@RequestBody SignUpReq p){
-        log.info("p : {}", p);
-        int result=service.signUpUser(p);
-        log.info("p2 : {}",  p);
-        return ResultDto.<Integer>builder()
-                .statusCode(HttpStatus.OK)
-                .resultData(result)
-                .resultMsg("회원가입에 성공하였습니다.")
-                .build();
+        try{
+            int result=service.signUpUser(p);
+            return ResultDto.<Integer>builder()
+                    .statusCode(HttpStatus.OK)
+                    .resultData(result)
+                    .resultMsg("회원가입에 성공하였습니다.")
+                    .build();
+            // 이거 아닌 듯
+        }catch (Exception e){
+           e.printStackTrace();
+            return ResultDto.<Integer>builder()
+                    .statusCode(HttpStatus.OK)
+                    .resultData(0)
+                    .resultMsg("회원가입 실패.")
+                    .build();
+        }
 
     }
     @PostMapping("sign-in")
     @Operation(summary="유저 로그인",
             description = "<strong> 변수명 : uid </strong> <p> 회원 아이디 ex)abc1231 </p>"+"\n"+
                           "<strong> 변수명 : upw </strong> <p> 회원 비밀번호 ex)aa123 </p>" +"\n")
-    public ResultDto<SignInRes> signInUser(@ModelAttribute @ParameterObject SignInReq p){
-        SignInRes result=service.signInUser(p);
+    public ResultDto<Long> signInUser(@ModelAttribute @ParameterObject SignInReq p){
+        long result=service.signInUser(p);
         log.info("{},{}",p,result);
-        return ResultDto.<SignInRes>builder()
+        return ResultDto.<Long>builder()
                 .statusCode(HttpStatus.OK)
                 .resultData(result)
                 .resultMsg("로그인에 성공하였습니다.")
@@ -83,6 +91,21 @@ public class UserController {
                 .statusCode(HttpStatus.OK)
                 .resultData(user)
                 .resultMsg("회원정보 열람")
+                .build();
+    }
+
+    @GetMapping("/id_check")
+    public ResultDto<String> searchUser(String uid){
+        int yesOrNo=service.searchUser(uid);
+        String minji=switch(yesOrNo){
+            case 1 -> "중복된 아이디입니다.";
+            case 0 -> "사용가능한 아이디입니다.";
+            default -> "예기치 못한 에러입니다.";
+        };
+        return ResultDto.<String>builder()
+                .statusCode(HttpStatus.OK)
+                .resultMsg(HttpStatus.OK.toString())
+                .resultData(minji)
                 .build();
     }
 }

@@ -10,8 +10,5 @@ import lombok.Setter;
 @Builder
 public class SignInRes {
     private long userId;
-    private String nm;
-    private String createdAt;
-    private String updatedAt;
-    private String email;
+    //없어도 될 듯
 }

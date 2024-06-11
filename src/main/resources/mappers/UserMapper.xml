@@ -43,16 +43,7 @@
     <select id="searchUser">
         SELECT COUNT(uid) AS find
         FROM user
-        WHERE uid=#{uid}
+        WHERE uid= #{uid};
     </select>
-
-    <!--로그인 처리..!-->
-    <select id="signedUserId">
-        SELECT user_id AS userId, uid, upw, nm,
-        created_at AS createdAt, updated_at AS updatedAt, email
-        FROM user
-        WHERE uid=#{uid}
-    </select>
-
 
 </mapper>
