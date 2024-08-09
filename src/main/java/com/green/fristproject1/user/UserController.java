@@ -100,7 +100,7 @@ public class UserController {
         String minji=switch(yesOrNo){
             case 1 -> "중복된 아이디입니다.";
             case 0 -> "사용가능한 아이디입니다.";
-            default -> "예기치 못한 에러입니다.";
+            default -> "예기치 못한 에러가 발생했습니다.";
         };
         return ResultDto.<String>builder()
                 .statusCode(HttpStatus.OK)
